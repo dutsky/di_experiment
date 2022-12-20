@@ -5,7 +5,6 @@ import 'package:flutter_template/features/navigation/domain/entity/app_route_pat
 
 /// All routes for the info feature.
 const infoRoutes = AutoRoute<dynamic>(
-  initial: true,
   path: AppRoutePaths.infoPath,
   name: AppRouteNames.infoScreen,
   page: InfoScreen,

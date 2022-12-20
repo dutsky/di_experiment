@@ -3,22 +3,25 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/config/environment/environment.dart';
+import 'package:flutter_template/domain/entity/alliance.dart';
 import 'package:flutter_template/features/navigation/domain/entity/app_route_paths.dart';
-import 'package:flutter_template/features/navigation/service/router.dart';
 import 'package:flutter_template/features/temp/screens/temp_screen/temp_screen.dart';
 import 'package:flutter_template/features/temp/screens/temp_screen/temp_screen_model.dart';
 
 /// Factory for [TempScreenWidgetModel].
 TempScreenWidgetModel initScreenWidgetModelFactory(
   BuildContext context,
+  List<Alliance> alliances,
 ) {
-  final model = TempScreenModel(Environment<AppConfig>.instance());
+  final model = TempScreenModel(Environment<AppConfig>.instance(), alliances);
   return TempScreenWidgetModel(model);
 }
 
 /// Widget model for [TempScreen].
 class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel>
     implements IDebugWidgetModel {
+  final List<Alliance> alliances;
+
   final _defaultNavBarItems = [
     const BottomNavigationBarItem(
       label: 'Dash screen',
@@ -36,16 +39,7 @@ class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel>
   );
 
   @override
-  List<PageRouteInfo> get routes => _routes;
-
-  @override
   List<BottomNavigationBarItem> get navigationBarItems => _navigationBarItems;
-
-  List<PageRouteInfo> get _routes {
-    final defaultRoutes = <PageRouteInfo>[DashRouter(), InfoRouter()];
-    if (_isDebugMode) defaultRoutes.add(DebugRouter());
-    return defaultRoutes;
-  }
 
   List<BottomNavigationBarItem> get _navigationBarItems {
     final navBarItems = [..._defaultNavBarItems];
@@ -56,7 +50,9 @@ class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel>
   bool get _isDebugMode => model.isDebugMode;
 
   /// Create an instance [TempScreenWidgetModel].
-  TempScreenWidgetModel(ITempScreenModel model) : super(model);
+  TempScreenWidgetModel(ITempScreenModel model)
+      : alliances = model.alliances,
+        super(model);
 
   @override
   String appBarTitle(RouteData topRoute) => _appBarTitle(topRoute);
@@ -76,13 +72,4 @@ class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel>
 }
 
 /// Interface of [TempScreenWidgetModel].
-abstract class IDebugWidgetModel extends IWidgetModel {
-  /// Routes for [AutoTabsRouter.tabBar].
-  List<PageRouteInfo<dynamic>> get routes;
-
-  /// Items for [BottomNavigationBar].
-  List<BottomNavigationBarItem> get navigationBarItems;
-
-  /// Title for appbar, depends on current selected page.
-  String appBarTitle(RouteData topRoute);
-}
+abstract class IDebugWidgetModel extends IWidgetModel {}

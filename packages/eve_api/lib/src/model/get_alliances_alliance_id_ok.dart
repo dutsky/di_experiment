@@ -19,7 +19,8 @@ part 'get_alliances_alliance_id_ok.g.dart';
 /// * [name] - the full name of the alliance
 /// * [ticker] - the short name of the alliance
 @BuiltValue()
-abstract class GetAlliancesAllianceIdOk implements Built<GetAlliancesAllianceIdOk, GetAlliancesAllianceIdOkBuilder> {
+abstract class GetAlliancesAllianceIdOk
+    implements Built<GetAlliancesAllianceIdOk, GetAlliancesAllianceIdOkBuilder> {
   /// ID of the corporation that created the alliance
   @BuiltValueField(wireName: r'creator_corporation_id')
   int get creatorCorporationId;
@@ -50,16 +51,19 @@ abstract class GetAlliancesAllianceIdOk implements Built<GetAlliancesAllianceIdO
 
   GetAlliancesAllianceIdOk._();
 
-  factory GetAlliancesAllianceIdOk([void updates(GetAlliancesAllianceIdOkBuilder b)]) = _$GetAlliancesAllianceIdOk;
+  factory GetAlliancesAllianceIdOk([void updates(GetAlliancesAllianceIdOkBuilder b)]) =
+      _$GetAlliancesAllianceIdOk;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(GetAlliancesAllianceIdOkBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<GetAlliancesAllianceIdOk> get serializer => _$GetAlliancesAllianceIdOkSerializer();
+  static Serializer<GetAlliancesAllianceIdOk> get serializer =>
+      _$GetAlliancesAllianceIdOkSerializer();
 }
 
-class _$GetAlliancesAllianceIdOkSerializer implements PrimitiveSerializer<GetAlliancesAllianceIdOk> {
+class _$GetAlliancesAllianceIdOkSerializer
+    implements PrimitiveSerializer<GetAlliancesAllianceIdOk> {
   @override
   final Iterable<Type> types = const [GetAlliancesAllianceIdOk, _$GetAlliancesAllianceIdOk];
 
@@ -197,7 +201,11 @@ class _$GetAlliancesAllianceIdOkSerializer implements PrimitiveSerializer<GetAll
     FullType specifiedType = FullType.unspecified,
   }) {
     final result = GetAlliancesAllianceIdOkBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
+    final serializedList = (serialized as Map<Object?, Object?>)
+        .entries
+        .map((e) => [e.key, e.value])
+        .expand((element) => element)
+        .toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
       serializers,
@@ -210,4 +218,3 @@ class _$GetAlliancesAllianceIdOkSerializer implements PrimitiveSerializer<GetAll
     return result.build();
   }
 }
-

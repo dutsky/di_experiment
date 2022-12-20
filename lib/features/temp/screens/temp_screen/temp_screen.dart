@@ -1,34 +1,25 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/temp/screens/temp_screen/temp_screen_widget_model.dart';
+import 'package:flutter_template/features/temp/screens/temp_screen/temp_screen_export.dart';
 
 /// Initialization screens (this can be a HomeScreen or SplashScreen for example).
 class TempScreen extends ElementaryWidget<TempScreenWidgetModel> {
   /// Create an instance [TempScreen].
-  const TempScreen({
+  TempScreen({
+    required List<Alliance> alliances,
     Key? key,
-    WidgetModelFactory wmFactory = initScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+  }) : super((context) => initScreenWidgetModelFactory(context, alliances), key: key);
 
   @override
   Widget build(TempScreenWidgetModel wm) {
-    return AutoTabsRouter.tabBar(
-      routes: wm.routes,
-      builder: (context, child, controller) {
-        final tabsRouter = context.tabsRouter;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(wm.appBarTitle(context.topRoute)),
-          ),
-          body: child,
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
-            items: wm.navigationBarItems,
-          ),
-        );
-      },
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: wm.alliances.length,
+        itemBuilder: (_, index) => ListTile(
+          title: Text(wm.alliances[index].name),
+          leading: Image.network(wm.alliances[index].imageUrl),
+        ),
+      ),
     );
   }
 }

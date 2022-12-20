@@ -14,7 +14,8 @@ part 'get_alliances_alliance_id_icons_ok.g.dart';
 /// * [px128x128] - px128x128 string
 /// * [px64x64] - px64x64 string
 @BuiltValue()
-abstract class GetAlliancesAllianceIdIconsOk implements Built<GetAlliancesAllianceIdIconsOk, GetAlliancesAllianceIdIconsOkBuilder> {
+abstract class GetAlliancesAllianceIdIconsOk
+    implements Built<GetAlliancesAllianceIdIconsOk, GetAlliancesAllianceIdIconsOkBuilder> {
   /// px128x128 string
   @BuiltValueField(wireName: r'px128x128')
   String? get px128x128;
@@ -25,18 +26,24 @@ abstract class GetAlliancesAllianceIdIconsOk implements Built<GetAlliancesAllian
 
   GetAlliancesAllianceIdIconsOk._();
 
-  factory GetAlliancesAllianceIdIconsOk([void updates(GetAlliancesAllianceIdIconsOkBuilder b)]) = _$GetAlliancesAllianceIdIconsOk;
+  factory GetAlliancesAllianceIdIconsOk([void updates(GetAlliancesAllianceIdIconsOkBuilder b)]) =
+      _$GetAlliancesAllianceIdIconsOk;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(GetAlliancesAllianceIdIconsOkBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<GetAlliancesAllianceIdIconsOk> get serializer => _$GetAlliancesAllianceIdIconsOkSerializer();
+  static Serializer<GetAlliancesAllianceIdIconsOk> get serializer =>
+      _$GetAlliancesAllianceIdIconsOkSerializer();
 }
 
-class _$GetAlliancesAllianceIdIconsOkSerializer implements PrimitiveSerializer<GetAlliancesAllianceIdIconsOk> {
+class _$GetAlliancesAllianceIdIconsOkSerializer
+    implements PrimitiveSerializer<GetAlliancesAllianceIdIconsOk> {
   @override
-  final Iterable<Type> types = const [GetAlliancesAllianceIdIconsOk, _$GetAlliancesAllianceIdIconsOk];
+  final Iterable<Type> types = const [
+    GetAlliancesAllianceIdIconsOk,
+    _$GetAlliancesAllianceIdIconsOk
+  ];
 
   @override
   final String wireName = r'GetAlliancesAllianceIdIconsOk';
@@ -112,7 +119,11 @@ class _$GetAlliancesAllianceIdIconsOkSerializer implements PrimitiveSerializer<G
     FullType specifiedType = FullType.unspecified,
   }) {
     final result = GetAlliancesAllianceIdIconsOkBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
+    final serializedList = (serialized as Map<Object?, Object?>)
+        .entries
+        .map((e) => [e.key, e.value])
+        .expand((element) => element)
+        .toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
       serializers,
@@ -125,4 +136,3 @@ class _$GetAlliancesAllianceIdIconsOkSerializer implements PrimitiveSerializer<G
     return result.build();
   }
 }
-

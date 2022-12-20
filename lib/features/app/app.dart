@@ -3,8 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/config/environment/environment.dart';
 import 'package:flutter_template/features/app/di/app_scope.dart';
-import 'package:flutter_template/features/common/widgets/di_scope/di_scope.dart';
 import 'package:flutter_template/persistence/storage/config_storage/config_storage_impl.dart';
+import 'package:provider/provider.dart';
 
 /// App widget.
 class App extends StatefulWidget {
@@ -22,7 +22,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
 
-    _scope = AppScope(applicationRebuilder: _rebuildApplication);
+    _scope = context.read<IAppScope>();
 
     final configStorage = ConfigSettingsStorageImpl();
     final environment = Environment<AppConfig>.instance();
@@ -33,28 +33,20 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return DiScope<IAppScope>(
-      key: ObjectKey(_scope),
-      factory: () {
-        return _scope;
-      },
-      child: MaterialApp.router(
-        /// Localization.
-        locale: _localizations.first,
-        localizationsDelegates: _localizationsDelegates,
-        supportedLocales: _localizations,
+    return MaterialApp.router(
+      /// Theme.
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
 
-        /// This is for navigation.
-        routeInformationParser: _scope.router.defaultRouteParser(),
-        routerDelegate: _scope.router.delegate(),
-      ),
+      /// Localization.
+      locale: _localizations.first,
+      localizationsDelegates: _localizationsDelegates,
+      supportedLocales: _localizations,
+
+      /// This is for navigation.
+      routeInformationParser: _scope.router.defaultRouteParser(),
+      routerDelegate: _scope.router.delegate(),
     );
-  }
-
-  void _rebuildApplication() {
-    setState(() {
-      _scope = AppScope(applicationRebuilder: _rebuildApplication);
-    });
   }
 }
 

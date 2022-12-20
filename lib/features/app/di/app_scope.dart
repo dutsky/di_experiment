@@ -5,18 +5,22 @@ import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/config/environment/environment.dart';
+import 'package:flutter_template/features/common/services/alliance/alliance_service.dart';
+import 'package:flutter_template/features/common/services/alliance/i_alliance_service.dart';
 import 'package:flutter_template/features/navigation/service/router.dart';
 import 'package:flutter_template/util/default_error_handler.dart';
+import 'package:openapi/openapi.dart';
 
 /// Scope of dependencies which need through all app's life.
 class AppScope implements IAppScope {
   late final Dio _dio;
   late final ErrorHandler _errorHandler;
-  late final VoidCallback _applicationRebuilder;
+  late final VoidCallback? _applicationRebuilder;
   late final AppRouter _router;
+  late final AllianceService _allianceService;
 
   @override
-  VoidCallback get applicationRebuilder => _applicationRebuilder;
+  VoidCallback? get applicationRebuilder => _onAppRebuild;
 
   @override
   Dio get dio => _dio;
@@ -27,19 +31,20 @@ class AppScope implements IAppScope {
   @override
   AppRouter get router => _router;
 
+  @override
+  AllianceService get allianceService => _allianceService;
+
   /// Create an instance [AppScope].
   AppScope({
-    required VoidCallback applicationRebuilder,
+    VoidCallback? applicationRebuilder,
   }) : _applicationRebuilder = applicationRebuilder {
     /// List interceptor. Fill in as needed.
-    final additionalInterceptors = <Interceptor>[];
-
-    _dio = _initDio(additionalInterceptors);
+    _initDio();
     _errorHandler = DefaultErrorHandler();
     _router = AppRouter.instance();
   }
 
-  Dio _initDio(Iterable<Interceptor> additionalInterceptors) {
+  Future<void> _initDio() async {
     const timeout = Duration(seconds: 30);
 
     final dio = Dio();
@@ -50,8 +55,7 @@ class AppScope implements IAppScope {
       ..receiveTimeout = timeout.inMilliseconds
       ..sendTimeout = timeout.inMilliseconds;
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
       final proxyUrl = Environment<AppConfig>.instance().config.proxyUrl;
       if (proxyUrl != null && proxyUrl.isNotEmpty) {
         client
@@ -66,14 +70,23 @@ class AppScope implements IAppScope {
       return client;
     };
 
-    dio.interceptors.addAll(additionalInterceptors);
+    // dio.interceptors.addAll(additionalInterceptors);
 
     if (Environment<AppConfig>.instance().isDebug) {
-      dio.interceptors
-          .add(LogInterceptor(requestBody: true, responseBody: true));
+      dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     }
 
-    return dio;
+    _dio = dio;
+
+    _allianceService = AllianceService(
+      allianceApi: AllianceApi(dio, serializers),
+    );
+  }
+
+  Future<void> _onAppRebuild() async {
+    _applicationRebuilder?.call();
+    await _initDio();
+    await router.replace(SplashScreenRoute());
   }
 }
 
@@ -86,8 +99,10 @@ abstract class IAppScope {
   ErrorHandler get errorHandler;
 
   /// Callback to rebuild the whole application.
-  VoidCallback get applicationRebuilder;
+  VoidCallback? get applicationRebuilder;
 
   /// Class that coordinates navigation for the whole app.
   AppRouter get router;
+
+  IAllianceService get allianceService;
 }
