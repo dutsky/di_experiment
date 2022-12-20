@@ -1,0 +1,41 @@
+name: flutter_template
+version: "0.0.1-dev.0"
+description: a Flutter template project for development.
+publish_to: none
+
+dependencies:
+  auto_route: 5.0.1
+  dio: 4.0.6
+  elementary: 1.5.0
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  logger: 1.1.0
+  openapi:
+    path: packages/eve_api
+  provider: 6.0.3
+  retrofit: 3.0.1+1
+  shared_preferences: 2.0.15
+  surf_logger: 1.1.0
+
+dev_dependencies:
+  auto_route_generator: 5.0.2
+  build_runner: 2.2.1
+  dart_code_metrics: 4.18.3
+  elementary_test: 1.1.2
+  flutter_test:
+    sdk: flutter
+  json_serializable: 6.3.2
+  retrofit_generator: 4.0.3+2
+  surf_lint_rules: 1.5.0
+
+environment:
+  sdk: ">=2.17.0-0 <3.0.0"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/

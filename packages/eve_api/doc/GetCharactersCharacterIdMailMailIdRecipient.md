@@ -1,0 +1,16 @@
+# openapi.model.GetCharactersCharacterIdMailMailIdRecipient
+
+## Load the model package
+```dart
+import 'package:openapi/api.dart';
+```
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**recipientId** | **int** | recipient_id integer | 
+**recipientType** | **String** | recipient_type string | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
