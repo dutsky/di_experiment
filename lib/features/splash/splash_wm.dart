@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/app/di/app_scope.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_template/features/splash/splash_model.dart';
 import 'package:flutter_template/features/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+/// Создаёт WM сплеш экрана.
 SplashWidgetModel defaultSplashWidgetModelFactory(BuildContext context) {
   final appScope = context.read<IAppScope>();
 
@@ -20,7 +20,6 @@ SplashWidgetModel defaultSplashWidgetModelFactory(BuildContext context) {
   );
 }
 
-// TODO: cover with documentation
 /// Default widget model for SplashWidget
 class SplashWidgetModel extends WidgetModel<SplashScreen, SplashModel>
     with SingleTickerProviderWidgetModelMixin
@@ -31,6 +30,7 @@ class SplashWidgetModel extends WidgetModel<SplashScreen, SplashModel>
   late Animation<double> animatedOpacity;
   late AnimationController _animationController;
 
+  /// Конструктор.
   SplashWidgetModel({
     required AppRouter router,
     required SplashModel model,
@@ -63,6 +63,8 @@ class SplashWidgetModel extends WidgetModel<SplashScreen, SplashModel>
   }
 }
 
+/// Интерфейс модели.
 abstract class ISplashWidgetModel extends IWidgetModel {
+  /// Анимированная прозрачность.
   Animation<double> get animatedOpacity;
 }

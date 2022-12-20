@@ -104,5 +104,6 @@ abstract class IAppScope {
   /// Class that coordinates navigation for the whole app.
   AppRouter get router;
 
+  /// Сервис по работе с альянсами.
   IAllianceService get allianceService;
 }
